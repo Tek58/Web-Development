@@ -1,3 +1,13 @@
+let acc1 = {
+    balance : 1000,
+    accNumber : 10003265646
+}
+let acc2 = {
+    balance : 10000,
+    accNumber : 12002561656
+}
+
+
 var choice = parseInt(prompt("what operation do you want to perform: \n 1 Deposite \n 2 Withdrawal \n 3 Check Balance \n 4 Transfer"))
 var amount
 function inp(choice){
@@ -20,26 +30,27 @@ function inp(choice){
         return "Invalid Input"
     }
 }
-var balance = 0;
+acc1.balance = 1000;
 var account 
 // Deposit, Balance, Withdrawal[with rules of amount one is allowed to withdraw], Transfer
 
 function deposite(amount){
-    balance = balance + amount
+    acc1.balance = acc1.balance + amount
     return ("Your account has been deposited with " + (amount) + " birr")
 }
-function transfer(account, amountTransfer){
+function transfer(account, amount){
     account = parseInt(prompt("Enter the account you want to transer: "))
-    balance = balance - amount
-    return ("You have transfered " + (amountTransfer) + " birr to " + (account))
+    acc1.balance = acc1.balance - amount
+    acc2.balance = acc2.balance + amount
+    return ("You have transfered " + (amount) + " birr to " + (acc2.accNumber))
 }
 function Withdrawal(amount){
     let limit = 300
-    if (balance > amount && balance - amount < 300){
-        balance = balance - amount 
+    if (acc1.balance > amount && acc1.balance - amount < 300){
+        acc1.balance = acc1.balance - amount 
         return ("Your account has been credited with " + (amount) + " birr")
     }
-    else if (balance < amount){
+    else if (acc1.balance < amount){
         return ("Your balance is inceficient to withdraw form")
     }
     else {
@@ -47,11 +58,11 @@ function Withdrawal(amount){
     }
 }
 function checkBalance(){
-    return ("Your Balance is " + (balance) + " birr")
+    return ("Your Balance is " + (acc1.balance) + " birr")
 }
 (function() {
     inp(choice);
     console.log("**************************************************************")
-    console.log("Your Balance is" + (balance) + "birr")
+    console.log("Your Balance is" + (acc1.balance) + "birr")
     console.log("**************************************************************")
 })();
