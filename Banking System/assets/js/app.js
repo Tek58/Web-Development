@@ -30,8 +30,8 @@ function inp(choice){
         return "Invalid Input"
     }
 }
-acc1.balance = 1000;
-var account 
+// acc1.balance = 1000;
+// var account 
 // Deposit, Balance, Withdrawal[with rules of amount one is allowed to withdraw], Transfer
 
 function deposite(amount){
@@ -40,9 +40,15 @@ function deposite(amount){
 }
 function transfer(account, amount){
     account = parseInt(prompt("Enter the account you want to transer: "))
-    acc1.balance = acc1.balance - amount
-    acc2.balance = acc2.balance + amount
-    return ("You have transfered " + (amount) + " birr to " + (acc2.accNumber))
+    if (account == acc2.accNumber){
+        acc1.balance = acc1.balance - amount
+        acc2.balance = acc2.balance + amount
+        return ("You have transfered " + (amount) + " birr to " + (acc2.accNumber))
+    }
+    else{
+        return ("The Account Number " + (account) + " doesnt exist in our database")
+    }
+    
 }
 function Withdrawal(amount){
     let limit = 300
@@ -63,6 +69,6 @@ function checkBalance(){
 (function() {
     inp(choice);
     console.log("**************************************************************")
-    console.log("Your Balance is" + (acc1.balance) + "birr")
+    console.log("Your Balance is " + (acc1.balance) + " birr")
     console.log("**************************************************************")
 })();
