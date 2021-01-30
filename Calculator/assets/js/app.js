@@ -1,119 +1,131 @@
-var comulator = new Array();
-var lenNums;
-var x;
-var y;
-var choice = prompt("what operation do you want to perform: \n 1 Addition \n 2 Subtraction \n 3 Multiplication \n 4 Division \n 5 Maximum \n 6 Minimum \n 7 Average \n 8 power")
-function inp(choice){
-    if (parseInt(choice) == 1 || parseInt(choice) == 3 || parseInt(choice) == 5 || parseInt(choice) == 6 || parseInt(choice) == 7){
-        lenNums = prompt("How many numbers do you want to operate on: ")
-        for (let i = 0; i < parseInt(lenNums); i++) {
-            comulator[i] = parseInt(prompt("Enter number " + (i + 1)));
-        }
+class Calculator {
+    constructor(prevTextElement, currTextElement) {
+      this.prevTextElement = prevTextElement
+      this.currTextElement = currTextElement
+      this.clear()
+    }
+  
+    clear() {
+      this.current = ''
+      this.previous = ''
+      this.operator = undefined
+    }
+  
+    appendNumber(number) {
+      if (number === '.' && this.current.includes('.')) return
+      this.current = this.current.toString() + number.toString()
+    }
+  
+    chooseOperation(operation) {
+      if (this.current === '') return
+      if (this.previous !== '') {
+        this.compute()
+      }
+      this.operator = operation
+      this.previous = this.current
+      this.current = ''
+    }
+  
+    compute() {
+      let computation
+      const prevv = parseFloat(this.previous)
+      const curr = parseFloat(this.current)
+      if (isNaN(prevv) || isNaN(curr)) return
+      switch (this.operator) {
+        case '+':
+          computation = prevv + curr
+          break
+        case '-':
+          computation = prevv - curr
+          break
+        case '*':
+          computation = prevv * curr
+          break
+        case 'MAX':
+          computation = Math.max(prevv,curr)
+          break
+        case 'MIN':
+          computation = Math.min(prevv,curr)
+          break
+        case 'POW':
+          computation = Math.pow(prevv,curr)
+          break
+        case '÷':
+          if (curr == 0){
+            computation =  'invalid input'
+          }
+          else{
+            computation = prevv / curr
+          }
+          break
+        default:
+          return
+      }
+      this.current = computation
+      this.operator = undefined
+      this.previous = ''
+    }
+  
+    getDisplayNumber(number) {
+      const stringNumber = number.toString()
+      const integerDigits = parseFloat(stringNumber.split('.')[0])
+      const decimalDigits = stringNumber.split('.')[1]
+      let integerDisplay
+      if (isNaN(integerDigits)) {
+        integerDisplay = ''
+      } else {
+        integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+      }
+      if (decimalDigits != null) {
+        return `${integerDisplay}.${decimalDigits}`
+      } else {
+        return integerDisplay
+      }
+    }
+  
+    updateDisplay() {
+      this.currTextElement.innerText =
+        this.getDisplayNumber(this.current)
+      if (this.operator != null) {
+        this.prevTextElement.innerText =
+          `${this.getDisplayNumber(this.previous)} ${this.operator}`
+      } else {
+        this.prevTextElement.innerText = ''
+      }
+    }
+  }
+  
+  
+const numberButtons = document.querySelectorAll('.number')
+const operationButtons = document.querySelectorAll('.operator')
+const equalsButton = document.querySelector('#equal')
+const allClearButton = document.querySelector('#clear')
+const prevTextElement = document.querySelector('#prev')
+const currTextElement = document.querySelector('#curr')
 
-        if(choice === "1"){
-            alert(addition(comulator));
-        }
-        else if (choice === '3') {
-            alert(multiplication(comulator));
-        }
-        else if (choice === '5') {
-            alert(Max(comulator));
-        }
-        else if (choice === '6') {
-            alert(Min(comulator));
-        }
-        else if (choice === '7') {
-            alert(average(comulator));
-        }
-    }
-    else if (parseInt(choice) == 2 || parseInt(choice) == 4 || parseInt(choice) == 8){
-        x = parseInt(prompt("Enter the first number: "));
-        y = parseInt(prompt("Enter the second number: "));
-    
-        if (choice === '2'){
-            alert(subtraction(x,y));
-        }
-        else if (choice === '4'){
-            alert(division(x,y));
-        }
-        else if (choice === '8'){
-            alert(power(x,y));
-        }
-    }
-    else if (parseInt(choice) != 1 || parseInt(choice) != 2 || parseInt(choice) != 3 || parseInt(choice) != 4){
-        alert("Invalid Input");
-    }
-}
+const calculator = new Calculator(prevTextElement, currTextElement)
 
+numberButtons.forEach(button => {
+button.addEventListener('click', () => {
+    calculator.appendNumber(button.innerText)
+    calculator.updateDisplay()
+})
+})
 
+operationButtons.forEach(button => {
+button.addEventListener('click', () => {
+    calculator.chooseOperation(button.innerText)
+    calculator.updateDisplay()
+})
+})
 
-function addition(comulator) {
-    let summ = 0;
-    for (let i = 0; i < parseInt(lenNums); i++) {
-        summ = summ + comulator[i]
-    }
-    return summ;
-}
-function Max(comulator){
-    let maximum = comulator[0];
-    for (let i = 0; i < parseInt(lenNums); i++) {
-        if (comulator[i] > maximum){
-            maximum = comulator[i]
-        }
-    }
-    return maximum;
-}
-function Min(comulator){
-    let minimum = comulator[0]
-    for (let i = 0; i < parseInt(lenNums); i++) {
-        if (comulator[i] < minimum){
-            minimum = comulator[i]
-        }
-    }
-    return minimum
-}
-function average(comulator){
-    let sumation = addition(comulator)
-    let count = 0
-    for (let i = 0; i < parseInt(lenNums); i++) {
-        count = count + 1
-    }
-    let Ave = sumation / count
-    return Ave
-}
-function power(x, y){
-    return x ** y
-}
+equalsButton.addEventListener('click', button => {
+calculator.compute()
+calculator.updateDisplay()
+})
 
-function subtraction(x,y) {
-    let diff = x - y
-    return diff
-}
-function multiplication(comulator) {
-    let multi = 1
-    for (let i = 0; i < parseInt(lenNums); i++) {
-        multi = comulator[i]  *  multi
-    }
-    return multi
-}
-function division(x,y) {
-    let div = 0
-    if (y != 0){
-        div = x / y
-    }
-    else{
-        return ("Invalid Input")
-    }
-    return div
-}
+allClearButton.addEventListener('click', button => {
+calculator.clear()
+calculator.updateDisplay()
+})
 
-(function() {
-    inp(choice);
-    // console.log("**************************************************************")
-    // console.log("What operations Do you want to perform:  ")
-    // console.log("1-> Addition");
-    // console.log("2-> Subtraction");
-    // console.log("3-> Multiplication");
-    // console.log("4-> Division");
-    // console.log("**************************************************************")
-})();
