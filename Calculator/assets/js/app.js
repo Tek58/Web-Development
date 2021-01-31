@@ -92,7 +92,10 @@ class Calculator {
       } else {
         this.prevTextElement.innerText = ''
       }
+      // this.currTextElement.innerText = this.current
+      // this.prevTextElement.innerText = this.previous
     }
+    
   }
   
   
