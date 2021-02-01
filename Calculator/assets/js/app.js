@@ -66,34 +66,34 @@ class Calculator {
       this.previous = ''
     }
   
-    getDisplayNumber(number) {
-      const stringNumber = number.toString()
-      const integerDigits = parseFloat(stringNumber.split('.')[0])
-      const decimalDigits = stringNumber.split('.')[1]
-      let integerDisplay
-      if (isNaN(integerDigits)) {
-        integerDisplay = ''
-      } else {
-        integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-      }
-      if (decimalDigits != null) {
-        return `${integerDisplay}.${decimalDigits}`
-      } else {
-        return integerDisplay
-      }
-    }
+    // getDisplayNumber(number) {
+      // const stringNumber = number.toString()
+      // const integerDigits = parseFloat(stringNumber.split('.')[0])
+      // const decimalDigits = stringNumber.split('.')[1]
+      // let integerDisplay
+      // if (isNaN(integerDigits)) {
+      //   integerDisplay = ''
+      // } else {
+      //   integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+      // }
+      // if (decimalDigits != null) {
+      //   return `${integerDisplay}.${decimalDigits}`
+      // } else {
+      //   return integerDisplay
+      // }
+    // }
   
     updateDisplay() {
-      this.currTextElement.innerText =
-        this.getDisplayNumber(this.current)
-      if (this.operator != null) {
-        this.prevTextElement.innerText =
-          `${this.getDisplayNumber(this.previous)} ${this.operator}`
-      } else {
-        this.prevTextElement.innerText = ''
-      }
-      // this.currTextElement.innerText = this.current
-      // this.prevTextElement.innerText = this.previous
+      // this.currTextElement.innerText =
+      //   this.getDisplayNumber(this.current)
+      // if (this.operator != null) {
+      //   this.prevTextElement.innerText =
+      //     `${this.getDisplayNumber(this.previous)} ${this.operator}`
+      // } else {
+      //   this.prevTextElement.innerText = ''
+      // }
+      this.currTextElement.innerText = this.current
+      this.prevTextElement.innerText = this.previous
     }
     
   }
